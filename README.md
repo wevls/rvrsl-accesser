@@ -1,3 +1,20 @@
+> [!IMPORTANT]
+> Hey everyone,
+>
+> I wanted to take a moment to address the current state of this project and my future involvement. I worked hard on FemboyAccess, and I've learned a lot from this experience. However, life has gotten busier than expected, and unfortunately, I no longer have the time or energy to continue maintaining and developing this project as I once did.
+>
+> Additionally, after some reflection, I've decided to step away from working on malware-related projects for now. While this started as a fun project, I feel it's time for me to focus on different areas of development and contribute in ways that align more with my current goals and values.
+>
+> To those who reached out asking for help or had questions I didn’t manage to respond to: I sincerely apologize. I wasn’t able to keep up with the messages and requests, and I know that might have been frustrating for some of you. Please understand that it wasn’t intentional, I couldn't be available a lot. I hope those who needed assistance were able to find a solution or workaround.
+>
+> Going forward, I won’t be pushing any more updates or providing support for this project. I'll archive this repository after pushing this commit. However, FemboyAccess will remain open-source, and if anyone wants to fork the project to improve upon it, you’re more than welcome to do so.
+>
+> Thank you to everyone who has supported this project, provided feedback, and contributed along the way. It’s been a unique journey, but I’m looking forward to focusing on new things. All the best!
+>
+> — ambr0sial
+
+---
+
 <p align="center">
   <a href="https://github.com/ambr0sial/femboyaccess"><img src="femboyaccess_logo.png" alt="FemboyAccess" width="128" /></a> 
 </p>
