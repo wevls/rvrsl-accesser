@@ -50,12 +50,6 @@ Rvrsl (FemboyAccess) is using the CC BY-NC 4.0 license. You can click on the bad
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-magenta.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
-## Contributing
-
-Contributions are always welcome!
-
-You can create pull requests, we're pretty active.
-
 
 #### FORKED BY [WEVLS](https://github.com/wevls)
 MASSIVE CREDITS TO [ambr0sial](https://www.github.com/ambr0sial) and [kaipicpic](https://www.github.com/kaipicpic)
