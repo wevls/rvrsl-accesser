@@ -13,15 +13,18 @@ from playsound import playsound
 import winreg
 import time
 import inspect
+import win32crypt
 import comtypes
 import sqlite3
 import win32com.client as wincl
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from pynput.keyboard import Key, Controller
 import re
+import win32api
 import datetime 
 from win32api import *
 from discord.ext import commands
+import win32gui
 import pyaudio
 import psutil
 import winsound
