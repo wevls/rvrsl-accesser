@@ -10,7 +10,7 @@ class GUIBuilder(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", padding=10, spacing=10, **kwargs)
 
-        title_label = MDLabel(text='FemboyAccess Builder', halign="center", font_style="H5")
+        title_label = MDLabel(text='Vrsl Builder', halign="center", font_style="H5")
         self.add_widget(title_label)
 
         server_id_label = MDLabel(text='Server ID:')
