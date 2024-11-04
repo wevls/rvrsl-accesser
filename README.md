@@ -58,4 +58,4 @@ You can create pull requests, we're pretty active.
 
 
 #### FORKED BY [WEVLS](https://github.com/wevls)
-<h2>MASSIVE CREDITS TO [ambr0sial](https://www.github.com/ambr0sial) and [kaipicpic](https://www.github.com/kaipicpic).</h2>
+MASSIVE CREDITS TO [ambr0sial](https://www.github.com/ambr0sial) and [kaipicpic](https://www.github.com/kaipicpic)
